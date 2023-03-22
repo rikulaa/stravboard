@@ -14,11 +14,11 @@ export const load: PageServerLoad = async (event) => {
   
   const { athleteId, accessToken } = session;
 
-  let table = getTable(athleteId);
-  if (!table) {
+  let activities = getTable(athleteId);
+  if (!activities) {
     try {
       const stravaActivitites = await getActivities(accessToken);
-      table = await cache(athleteId, stravaActivitites);
+      activities = await cache(athleteId, stravaActivitites);
     } catch (e) {
       console.error(e);
       throw redirect(302, '/');
@@ -45,8 +45,7 @@ export const load: PageServerLoad = async (event) => {
     }
 
   }
-  const activities = await query(table, {});
-  const filteredActivities = await query(table, q);
+  const filteredActivities = await query(activities, q);
 
   const { totalDistanceInMeters, totalMovingTimeInSeconds, totalElapsedTimeInSeconds, totalElevationGainInMeters, averageSpeed } = filteredActivities.reduce((acc, cur) => {
     return {
@@ -69,10 +68,6 @@ export const load: PageServerLoad = async (event) => {
       sum: 0
     }
   });
-
-  // set query parameters to response
-  // event.setContext('query', { type: 'Ride'});
-  event.url.searchParams.set('type', 'Ride');
 
   return {
     activities: filteredActivities,
