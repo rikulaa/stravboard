@@ -9,7 +9,7 @@ help:           ## Show this help.
 
 .PHONY: dev
 dev: node_modules ## Dev
-	@npm run dev
+	@npm run dev -- --open
 
 .PHONY: build
 build: node_modules
