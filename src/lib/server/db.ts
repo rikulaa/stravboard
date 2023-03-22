@@ -17,13 +17,16 @@ export async function query(items: Activity[], q: Record<string, any>): Promise<
   if (Object.keys(q).length > 0) {
     return items
       .filter((item: Activity) => {
+        const matches = [];
         for (const [key, value] of Object.entries(q)) {
           if (key === 'start_date_timestamp') {
             const [start, end] = value.between;
-            return item.start_date_timestamp > start && item.start_date_timestamp < end;
+            matches.push(item.start_date_timestamp > start && item.start_date_timestamp < end);
+          } else {
+            matches.push(item[key] === value);
           }
-          return item[key] === value;
         }
+        return matches.every(match => match);
       })
       .sort((a, b) => {
         // sort by descending order
