@@ -94,7 +94,6 @@ export async function getActivities(accessToken: string): Promise<Activity[]> {
   let current = [];
   do {
     current = await fetchActivities(accessToken, page);
-    console.log('len', current.length);
     activities = [
       ...activities,
       ...current
