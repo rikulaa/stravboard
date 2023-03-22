@@ -40,6 +40,7 @@
 		"@auth/core": "^0.5.1",
 		"@auth/sveltekit": "^0.3.0",
 		"@mapbox/polyline": "^1.1.1",
+		"@sveltejs/adapter-vercel": "^2.4.0",
 		"daisyui": "^2.51.4",
 		"date-fns": "^2.29.3",
 		"strava-v3": "^2.1.0"
